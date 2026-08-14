@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowLeft,
@@ -9,9 +9,10 @@ import {
   Clock3,
   Globe2,
   Menu,
-  MoveLeft,
+  Moon,
   ShieldCheck,
   Sparkles,
+  Sun,
   TrendingUp,
   X,
   Zap,
@@ -52,10 +53,27 @@ function Logo() {
   );
 }
 
-function Header({ onMenu }) {
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'light';
+  const saved = window.localStorage.getItem('bit24wise-theme');
+  if (saved === 'dark' || saved === 'light') return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function ThemeToggle({ theme, onToggle }) {
+  const dark = theme === 'dark';
+  return (
+    <button className="theme-toggle" type="button" onClick={onToggle} aria-pressed={dark} aria-label={dark ? 'فعال‌کردن حالت روشن' : 'فعال‌کردن حالت تاریک'} title={dark ? 'حالت روشن' : 'حالت تاریک'}>
+      {dark ? <Sun size={17} strokeWidth={1.9} /> : <Moon size={17} strokeWidth={1.9} />}
+    </button>
+  );
+}
+
+function Header({ onMenu, theme, onToggleTheme }) {
   return (
     <header className="site-header">
       <div className="header-inner">
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         <Logo />
         <nav className="desktop-nav" aria-label="ناوبری اصلی">
           <a href="#convert">خرید و فروش</a>
@@ -210,7 +228,15 @@ function Footer() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  return <><Header onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></main><Footer /></>;
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem('bit24wise-theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0b1726' : '#0072ff');
+  }, [theme]);
+
+  return <><Header theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></main><Footer /></>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);

@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0072ff" />
     <meta name="description" content="خانه‌ی مفهومی Bit24Wise؛ خرید و فروش شفاف رمزارز با تجربه‌ای ساده و سریع." />
+    <script>
+      (() => {
+        const saved = localStorage.getItem('bit24wise-theme');
+        const dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
     <title>بیت۲۴ | ساده‌تر از همیشه</title>
   </head>
   <body>
