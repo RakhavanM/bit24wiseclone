@@ -3,17 +3,24 @@ import { createRoot } from 'react-dom/client';
 import {
   ArrowLeft,
   ArrowUpLeft,
+  BarChart3,
+  BookOpen,
+  Check,
   ChevronDown,
   ChevronLeft,
   CircleHelp,
   Clock3,
+  Filter,
   Globe2,
+  LineChart,
   Menu,
   Moon,
+  Search,
   ShieldCheck,
   Sparkles,
   Sun,
   TrendingUp,
+  WalletCards,
   X,
   Zap,
 } from 'lucide-react';
@@ -76,12 +83,12 @@ function Header({ onMenu, theme, onToggleTheme }) {
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         <Logo />
         <nav className="desktop-nav" aria-label="ناوبری اصلی">
-          <a href="#convert">خرید و فروش</a>
-          <a href="#markets">بازارها</a>
-          <a href="#services">خدمات بیت۲۴</a>
-          <a href="#trust">امنیت و اعتماد</a>
-          <a href="#blog">وبلاگ</a>
-          <a href="#analysis">تحلیل</a>
+          <a href="#/buy-sell">خرید و فروش</a>
+          <a href="#/markets">بازارها</a>
+          <a href="#/services">خدمات بیت۲۴</a>
+          <a href="#/services">امنیت و اعتماد</a>
+          <a href="#/blog">وبلاگ</a>
+          <a href="#/analysis">تحلیل</a>
         </nav>
         <div className="header-actions">
           <button className="help-button" type="button" aria-label="راهنما"><CircleHelp size={19} strokeWidth={1.8} /></button>
@@ -101,12 +108,12 @@ function MobileMenu({ open, onClose }) {
       <div className="mobile-menu">
         <div className="mobile-menu-head"><Logo /><button type="button" onClick={onClose} aria-label="بستن منو"><X size={22} /></button></div>
         <div className="mobile-links">
-          <a href="#convert" onClick={onClose}>خرید و فروش</a>
-          <a href="#markets" onClick={onClose}>بازارها</a>
-          <a href="#services" onClick={onClose}>خدمات بیت۲۴</a>
-          <a href="#trust" onClick={onClose}>امنیت و اعتماد</a>
-          <a href="#blog" onClick={onClose}>وبلاگ</a>
-          <a href="#analysis" onClick={onClose}>تحلیل</a>
+          <a href="#/buy-sell" onClick={onClose}>خرید و فروش</a>
+          <a href="#/markets" onClick={onClose}>بازارها</a>
+          <a href="#/services" onClick={onClose}>خدمات بیت۲۴</a>
+          <a href="#/services" onClick={onClose}>امنیت و اعتماد</a>
+          <a href="#/blog" onClick={onClose}>وبلاگ</a>
+          <a href="#/analysis" onClick={onClose}>تحلیل</a>
         </div>
         <a className="primary-button mobile-signup" href="#signup" onClick={onClose}>شروع کنید <ArrowLeft size={18} /></a>
       </div>
@@ -223,12 +230,69 @@ function Insights() {
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>قیمت‌های لحظه‌ای، ابزارهای متنوع و مدیریت ساده‌ی دارایی در یک حساب.</p></div><div><h3>بیت۲۴</h3><a href="#markets">بازارها</a><a href="#services">خدمات</a><a href="#trust">امنیت</a></div><div><h3>مطالب</h3><a href="#blog">وبلاگ</a><a href="#analysis">تحلیل‌ها</a><a href="#faq">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
+  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>قیمت‌های لحظه‌ای، ابزارهای متنوع و مدیریت ساده‌ی دارایی در یک حساب.</p></div><div><h3>بیت۲۴</h3><a href="#/markets">بازارها</a><a href="#/services">خدمات</a><a href="#/services">امنیت</a></div><div><h3>مطالب</h3><a href="#/blog">وبلاگ</a><a href="#/analysis">تحلیل‌ها</a><a href="#/blog">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
+}
+
+function PageIntro({ eyebrow, title, description, action, tone = 'blue' }) {
+  return <div className={`inner-page-intro ${tone}`}><div className="page-shell"><div className="section-kicker">{eyebrow}</div><h1>{title}</h1><p>{description}</p>{action && <a className="primary-button large" href={action.href}>{action.label} <ArrowLeft size={20} /></a>}</div></div>;
+}
+
+function BuySellPage() {
+  const steps = [
+    { number: '۰۱', title: 'ارز و مقدار را انتخاب کنید', body: 'ارز دیجیتال مورد نظر و مقدار خرید یا فروش را مشخص کنید.' },
+    { number: '۰۲', title: 'قیمت نهایی را ببینید', body: 'جزئیات سفارش و قیمت نهایی را پیش از تأیید بررسی کنید.' },
+    { number: '۰۳', title: 'سفارش را تأیید کنید', body: 'پس از تأیید، دریافت ارز دیجیتال یا تسویه را دنبال کنید.' },
+  ];
+  return <div className="inner-page"><PageIntro eyebrow="خرید و فروش آنی" title={<>خرید و فروش ارز دیجیتال<br /><em>در چند قدم ساده.</em></>} description="خرید و فروش آنی بیش از ۱۰۸۸ ارز دیجیتال؛ با نمایش قیمت نهایی و فرایندی روشن." action={{ href: '#signup', label: 'شروع خرید و فروش' }} /><section className="page-shell inner-section buy-workspace"><div className="workspace-tabs"><button className="active" type="button">خرید</button><button type="button">فروش</button><button type="button">تبدیل</button></div><Converter /><div className="workspace-foot"><span><Check size={16} /> قیمت‌ها پیش از نهایی‌سازی نمایش داده می‌شوند.</span><span><WalletCards size={16} /> کیف‌پول امن و اختصاصی</span></div></section><section className="page-shell inner-section"><div className="section-head"><div><div className="section-kicker">فرایندی کوتاه و قابل فهم</div><h2>از انتخاب ارز تا دریافت،<br /><em>همه‌چیز روشن است.</em></h2></div></div><div className="step-grid">{steps.map((step) => <div className="step-card" key={step.number}><span>{step.number}</span><h3>{step.title}</h3><p>{step.body}</p></div>)}</div></section></div>;
+}
+
+function MarketsPage() {
+  const [search, setSearch] = useState('');
+  const filtered = marketRows.filter((row) => `${row.code} ${row.name}`.toLowerCase().includes(search.toLowerCase()));
+  return <div className="inner-page"><PageIntro eyebrow="بازارها" title={<>قیمت لحظه‌ای ارزها،<br /><em>در یک نگاه.</em></>} description="بازار را رصد کنید، تغییرات را مقایسه کنید و دارایی مورد نظرتان را سریع‌تر پیدا کنید." /><section className="page-shell inner-section"><div className="market-dashboard-head"><div><div className="section-kicker">دیده‌بان بازار</div><h2>انتخاب بعدی‌تان را<br /><em>با داده شروع کنید.</em></h2></div><div className="market-tools"><label className="market-search"><Search size={17} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="جست‌وجوی ارز" aria-label="جست‌وجوی ارز" /></label><button className="filter-button" type="button"><Filter size={17} /> فیلترها</button></div></div><div className="market-kpis"><div><span>ارزهای بیت۲۴</span><strong>۱۰۸۸ ارز</strong></div><div><span>تغییرات ۲۴ ساعت</span><strong className="negative">-۰٫۷۴٪</strong></div><div><span>تسلط بیت‌کوین</span><strong>۵۸٪</strong></div><div><span>آخرین به‌روزرسانی</span><strong>همین حالا</strong></div></div><div className="full-market-table"><div className="full-market-row table-header"><span>دارایی</span><span>آخرین قیمت</span><span>تغییر ۲۴ ساعت</span><span>عملیات</span></div>{filtered.map((row) => <a className="full-market-row" href="#/buy-sell" key={row.code}><span className="asset-name"><CoinBadge coin={row} /><b>{row.name}<small>{row.code}</small></b></span><strong className="market-number">{row.price} <small>IRT</small></strong><b className={row.trend}>{row.change}</b><span className="row-action">خرید و فروش <ChevronLeft size={16} /></span></a>)}{filtered.length === 0 && <div className="empty-state">ارزی با این عبارت پیدا نشد.</div>}</div></section></div>;
+}
+
+function ServicesPage() {
+  const services = [
+    { icon: WalletCards, title: 'خرید و فروش آنی', text: 'خرید یا فروش سریع ارز دیجیتال با قیمت نهایی و بدون کارمزد مجزا.', tone: 'blue' },
+    { icon: LineChart, title: 'معامله اسپات', text: 'بیشترین تنوع ابزارهای سفارش‌گذاری بازار اسپات در ایران.', tone: 'light' },
+    { icon: TrendingUp, title: 'معامله اهرم‌دار', text: 'اهرم تا ۵۰X، همراه با ابزارهای مدیریت ریسک و تنظیم حد سود و ضرر.', tone: 'dark' },
+    { icon: BarChart3, title: 'پرتفوی سود و ضرر', text: 'میزان سود یا ضرر دارایی‌های خود را لحظه‌به‌لحظه پیگیری و مدیریت کنید.', tone: 'soft' },
+    { icon: Sparkles, title: 'بیت‌گیفت', text: 'در مناسبت‌های مختلف، ارز دیجیتال را به عزیزان خود هدیه دهید.', tone: 'blue' },
+    { icon: Globe2, title: 'تنوع ارزی بالا', text: 'با پشتیبانی از بیش از ۱۰۸۸ ارز دیجیتال، انتخاب‌های بیشتری داشته باشید.', tone: 'light' },
+  ];
+  return <div className="inner-page"><PageIntro eyebrow="خدمات بیت۲۴" title={<>یک حساب،<br /><em>چند مسیر برای معامله.</em></>} description="از خرید ساده تا ابزارهای حرفه‌ای، خدمات بیت۲۴ برای نیازهای مختلف شما آماده است." /><section className="page-shell inner-section"><div className="section-head"><div><div className="section-kicker">ابزارهای مورد نیاز شما</div><h2>هر خدمت، برای<br /><em>یک تصمیم بهتر.</em></h2></div></div><div className="service-directory">{services.map(({ icon: Icon, title, text, tone }) => <a className={`directory-card ${tone} visual-pattern`} href="#/buy-sell" key={title}><span className="pattern-layer" aria-hidden="true" /><Icon size={25} /><h3>{title}</h3><p>{text}</p><span className="service-link">مشاهده خدمت <ArrowLeft size={17} /></span></a>)}</div></section></div>;
+}
+
+const blogPosts = [
+  { category: 'امنیت', title: 'چگونه حساب خود را امن‌تر کنیم؟', excerpt: 'لورم ایپسوم فارسی؛ چند نکته‌ی کاربردی برای شناخت بهتر تنظیمات امنیتی و مدیریت دسترسی‌ها.', tone: 'blue' },
+  { category: 'آموزشی', title: 'بازار اسپات چیست و چگونه کار می‌کند؟', excerpt: 'لورم ایپسوم فارسی؛ مروری کوتاه بر سفارش‌گذاری، قیمت بازار و تفاوت معامله‌ی آنی با بازار اسپات.', tone: 'light' },
+  { category: 'راهنما', title: 'آشنایی با انواع سفارش در بازار', excerpt: 'لورم ایپسوم فارسی؛ انتخاب نوع سفارش مناسب می‌تواند مسیر معامله را دقیق‌تر و منظم‌تر کند.', tone: 'dark' },
+  { category: 'رمزارزها', title: 'تتر چیست و چه کاربردی دارد؟', excerpt: 'لورم ایپسوم فارسی؛ نکات مهمی که پیش از نگهداری یا انتقال یک استیبل‌کوین باید بدانید.', tone: 'soft' },
+  { category: 'آموزشی', title: 'مدیریت ریسک در معاملات اهرم‌دار', excerpt: 'لورم ایپسوم فارسی؛ اهرم فرصت بیشتری ایجاد می‌کند، اما به برنامه و کنترل ریسک نیاز دارد.', tone: 'light' },
+  { category: 'بازار', title: 'چطور روند بازار را بهتر دنبال کنیم؟', excerpt: 'لورم ایپسوم فارسی؛ داده‌های قیمت، حجم و خبرها را کنار هم بگذارید و عجولانه تصمیم نگیرید.', tone: 'blue' },
+];
+
+function EditorialPage({ mode = 'blog' }) {
+  const analysis = mode === 'analysis';
+  const posts = analysis ? blogPosts.map((post, index) => ({ ...post, category: ['تکنیکال', 'فاندامنتال', 'آن‌چین', 'احساسات بازار', 'تکنیکال', 'فاندامنتال'][index], title: ['روند کوتاه‌مدت بیت‌کوین؛ حمایت‌ها و مقاومت‌ها', 'چشم‌انداز اتریوم با نگاهی به داده‌های شبکه', 'بررسی جریان نقدینگی در بازار رمزارزها', 'شاخص ترس و طمع چه می‌گوید؟', 'تحلیل ساختار بازار و سناریوهای پیش رو', 'ترکیب تحلیل‌ها برای تصمیم‌گیری بهتر'][index] })) : blogPosts;
+  return <div className="inner-page editorial-page"><PageIntro eyebrow={analysis ? 'تحلیل‌های بیت۲۴' : 'وبلاگ بیت۲۴'} title={analysis ? <>روندها را بررسی کنید،<br /><em>نه حدس‌ها را.</em></> : <>دانش بیشتر،<br /><em>تصمیم بهتر.</em></>} description={analysis ? 'تحلیل‌های تکنیکال، فاندامنتال و آن‌چین را برای درک بهتر شرایط بازار دنبال کنید.' : 'با خبرها، آموزش‌ها و مقالات کاربردی در دنیای رمزارزها همراه شوید.'} /><section className="page-shell inner-section"><div className="editorial-toolbar"><div className="editorial-tabs"><button className="active" type="button">همه</button><button type="button">آموزشی</button><button type="button">بازار</button><button type="button">امنیت</button></div><label className="market-search"><Search size={17} /><input placeholder="جست‌وجو در مطالب" aria-label="جست‌وجو در مطالب" /></label></div><div className="editorial-grid">{posts.map((post, index) => <a className={`editorial-card ${post.tone} visual-pattern ${index === 0 ? 'featured' : ''}`} href={analysis ? '#/analysis/article' : '#/blog/article'} key={`${post.category}-${post.title}`}><span className="pattern-layer" aria-hidden="true" /><div className="editorial-visual"><span className="editorial-number">۰{index + 1}</span><BookOpen size={34} /><span className="editorial-shape" /></div><div className="editorial-card-body"><div className="insight-meta"><span>{post.category}</span><span>{analysis ? 'تحلیل' : '۵ دقیقه مطالعه'}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><span className="insight-link">ادامه مطلب <ArrowLeft size={17} /></span></div></a>)}</div></section></div>;
+}
+
+function InnerPageRouter() {
+  const path = window.location.hash.replace(/^#\/?/, '').split('?')[0];
+  if (path === 'buy-sell') return <BuySellPage />;
+  if (path === 'markets') return <MarketsPage />;
+  if (path === 'services') return <ServicesPage />;
+  if (path === 'blog' || path.startsWith('blog/')) return <EditorialPage />;
+  if (path === 'analysis' || path.startsWith('analysis/')) return <EditorialPage mode="analysis" />;
+  return null;
 }
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
+  const [route, setRoute] = useState(window.location.hash);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -236,7 +300,14 @@ function App() {
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0b1726' : '#0072ff');
   }, [theme]);
 
-  return <><Header theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></main><Footer /></>;
+  useEffect(() => {
+    const handleHashChange = () => setRoute(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const innerPage = route.startsWith('#/');
+  return <><Header theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main>{innerPage ? <InnerPageRouter /> : <><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></>}</main><Footer /></>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);
