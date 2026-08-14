@@ -5,6 +5,7 @@ A Bit24 homepage concept inspired by Wise's clarity-first fintech patterns, rede
 ## Included
 
 - Persian RTL responsive homepage
+- IRANSansX typography for Persian UI text, bundled locally under `src/assets/fonts/`
 - Bit24-inspired blue palette and textual brand lockup
 - Interactive exchange converter with currency swapping
 - Live-market style ticker and switchable market tabs
