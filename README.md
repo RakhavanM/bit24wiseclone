@@ -12,6 +12,7 @@ A Bit24 homepage concept inspired by Wise's clarity-first fintech patterns, rede
 - Services, trust, learning, and footer sections
 - Mobile navigation drawer
 - GitHub Pages deployment workflow
+- Persian marketing copy sourced from and edited against the official Bit24 homepage and fee page
 
 This is a frontend concept. Market values and metrics shown in the UI are illustrative presentation data and are not connected to a trading API.
 

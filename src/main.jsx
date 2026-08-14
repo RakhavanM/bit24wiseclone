@@ -34,10 +34,10 @@ const marketRows = [
 ];
 
 const stats = [
-  { value: '۲٬۰۰۰٬۰۰۰+', label: 'کاربر فعال', icon: Globe2 },
-  { value: '۱۰۸۸', label: 'ارز دیجیتال', icon: Sparkles },
-  { value: '۷۳', label: 'شبکه بلاکچین', icon: Zap },
-  { value: '۰٫۰۷٪ تا ۰٫۲٪', label: 'کارمزد شفاف', icon: TrendingUp },
+  { value: '۲٬۰۰۰٬۰۰۰+', label: 'کاربر', icon: Globe2 },
+  { value: '۱۰۸۸', label: 'ارز دیجیتال لیست‌شده', icon: Sparkles },
+  { value: '۷۳', label: 'شبکه بلاکچین برای انتقال', icon: Zap },
+  { value: '۰٫۰۷٪ تا ۰٫۲٪', label: 'کمترین کارمزد بازار', icon: TrendingUp },
 ];
 
 function formatNumber(value, maximumFractionDigits = 2) {
@@ -149,7 +149,7 @@ function Converter() {
 
   return (
     <div className="converter-card" id="convert">
-      <div className="converter-topline"><span className="live-dot" /> نرخ لحظه‌ای بیت۲۴</div>
+      <div className="converter-topline"><span className="live-dot" /> قیمت لحظه‌ای ارزها</div>
       <div className="converter-fields">
         <div className="money-field">
           <div className="field-label"><span>پرداخت می‌کنید</span><span className="field-hint">قیمت نهایی</span></div>
@@ -165,7 +165,7 @@ function Converter() {
         <span>کارمزد تقریبی <strong>{formatNumber(fee, 2)} {to}</strong></span>
         <span>تکمیل سفارش <strong>در چند ثانیه</strong></span>
       </div>
-      <a className="primary-button converter-cta" href="#signup">شروع خرید و فروش <ArrowLeft size={18} /></a>
+      <a className="primary-button converter-cta" href="#signup">شروع خرید <ArrowLeft size={18} /></a>
       <p className="converter-note">بدون غافلگیری؛ قبل از تأیید، جزئیات کامل را می‌بینید.</p>
     </div>
   );
@@ -176,11 +176,11 @@ function Hero() {
     <section className="hero-section" id="top">
       <div className="hero-grid page-shell">
         <div className="hero-copy">
-          <div className="eyebrow"><span className="eyebrow-line" /> دنیای رمزارز، ساده‌تر از همیشه</div>
-          <h1>پولِ دیجیتال،<br /><em>بدون پیچیدگی.</em></h1>
-          <p className="hero-description">با بیت۲۴ ارز دیجیتال بخرید، بفروشید و دارایی‌تان را با شفافیت و سرعت مدیریت کنید.</p>
-          <div className="hero-actions"><a className="primary-button large" href="#signup">همین حالا شروع کنید <ArrowLeft size={20} /></a><a className="text-link" href="#markets">قیمت‌ها را ببینید <ChevronLeft size={18} /></a></div>
-          <div className="hero-assurance"><ShieldCheck size={17} /><span>امن، شفاف و در دسترس؛ ۲۴ ساعت شبانه‌روز</span></div>
+          <div className="eyebrow"><span className="eyebrow-line" /> صرافی ارز دیجیتال بیت۲۴</div>
+          <h1>خرید و فروش ارز دیجیتال،<br /><em>امن و آسان.</em></h1>
+          <p className="hero-description">بیت۲۴ پلتفرم خرید و فروش ارز دیجیتال با امکان معامله سریع، امن و پشتیبانی ۲۴ ساعته است.</p>
+          <div className="hero-actions"><a className="primary-button large" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={20} /></a><a className="text-link" href="#markets">قیمت‌ها را ببینید <ChevronLeft size={18} /></a></div>
+          <div className="hero-assurance"><ShieldCheck size={17} /><span>پشتیبانی ۲۴ ساعته به زبان فارسی</span></div>
         </div>
         <div className="hero-product visual-pattern"><span className="pattern-layer" aria-hidden="true" /><Converter /><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /></div>
       </div>
@@ -195,11 +195,11 @@ function Stats() {
 
 function Markets() {
   const [tab, setTab] = useState('hot');
-  const tabs = { hot: 'داغ‌ترین‌ها', gainers: 'بیشترین رشد', new: 'جدیدترین‌ها' };
+  const tabs = { hot: 'داغ‌ترین‌ها', gainers: 'بیشترین رشد', new: 'جدیدها' };
   const rows = tab === 'gainers' ? [...marketRows].reverse() : tab === 'new' ? marketRows.map((row, index) => ({ ...row, code: ['ARB', 'XRP', 'SOL', 'BTC'][index], name: ['آربیتروم', 'ریپل', 'سولانا', 'بیت‌کوین'][index], change: `+${index + 2}٫${index + 1}٪`, trend: 'up' })) : marketRows;
   return (
     <section className="section page-shell" id="markets">
-      <div className="section-head"><div><div className="section-kicker">قیمت‌ها، همین حالا</div><h2>بازار را <em>واضح‌تر</em> ببینید.</h2></div><a className="outline-button" href="#all-markets">مشاهده همه ارزها <ArrowLeft size={17} /></a></div>
+      <div className="section-head"><div><div className="section-kicker">قیمت لحظه‌ای ارزها</div><h2>بازار را <em>واضح‌تر</em> ببینید.</h2></div><a className="outline-button" href="#all-markets">مشاهده همه ارزها <ArrowLeft size={17} /></a></div>
       <div className="market-panel"><div className="market-tabs">{Object.entries(tabs).map(([key, label]) => <button className={tab === key ? 'active' : ''} type="button" key={key} onClick={() => setTab(key)}>{label}</button>)}</div><div className="market-list">{rows.map((row) => <a href={`#${row.code.toLowerCase()}`} className="market-row" key={`${tab}-${row.code}`}><div className="asset-name"><CoinBadge coin={row} /><span><strong>{row.code}</strong><small>{row.name}</small></span></div><span className="asset-price">{row.price}<small> USDT</small></span><span className={`asset-change ${row.trend}`}>{row.change}</span><ChevronLeft className="row-arrow" size={18} /></a>)}</div></div>
     </section>
   );
@@ -207,23 +207,23 @@ function Markets() {
 
 function Services() {
   const services = [
-    { number: '۰۱', title: 'خرید و فروش آنی', body: 'ارزهای محبوب بازار را با قیمت نهایی و بدون کارمزد مجزا معامله کنید.', tone: 'blue', icon: '↗' },
-    { number: '۰۲', title: 'بازار اسپات', body: 'برای معامله‌گرهای حرفه‌ای؛ سفارش‌گذاری دقیق با ابزارهای کامل بازار.', tone: 'ink', icon: '⌁' },
-    { number: '۰۳', title: 'معامله اهرم‌دار', body: 'فرصت‌های بازار را با مدیریت ریسک و ابزارهای کنترل سود و ضرر دنبال کنید.', tone: 'soft', icon: '◒' },
+    { number: '۰۱', title: 'خرید و فروش آنی', body: 'در بازار خرید و فروش آنی بیت۲۴، کارمزد معامله صفر است و قیمت نهایی را می‌بینید.', tone: 'blue', icon: '↗' },
+    { number: '۰۲', title: 'معامله اسپات', body: 'بیشترین تنوع ابزارهای سفارش‌گذاری بازار اسپات در ایران.', tone: 'ink', icon: '⌁' },
+    { number: '۰۳', title: 'معامله اهرم‌دار', body: 'خرید و فروش ارزهای دیجیتال تا اهرم ۵۰X و امکان تنظیم حد سود و ضرر برای مدیریت ریسک.', tone: 'soft', icon: '◒' },
   ];
-  return <section className="section services-section" id="services"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">یک حساب، چند مسیر</div><h2>هرچطور که معامله می‌کنید،<br /><em>بیت۲۴ همراه شماست.</em></h2></div><p className="section-intro">از خرید ساده تا معامله‌ی حرفه‌ای، همه‌چیز را در یک تجربه‌ی یکپارچه داشته باشید.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone} visual-pattern`} href="#signup" key={service.number}><span className="pattern-layer" aria-hidden="true" /><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">بیشتر بدانید <ArrowLeft size={17} /></span></a>)}</div></div></section>;
+  return <section className="section services-section" id="services"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">برخی از خدمات صرافی ارز دیجیتال بیت۲۴</div><h2>هر طور که معامله می‌کنید،<br /><em>بیت۲۴ همراه شماست.</em></h2></div><p className="section-intro">از خرید و فروش آنی تا معاملات اسپات و اهرم‌دار، خدمات مورد نیازتان را در بیت۲۴ پیدا کنید.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone} visual-pattern`} href="#signup" key={service.number}><span className="pattern-layer" aria-hidden="true" /><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">بیشتر بدانید <ArrowLeft size={17} /></span></a>)}</div></div></section>;
 }
 
 function Trust() {
-  return <section className="trust-section" id="trust"><div className="page-shell trust-grid"><div className="trust-copy"><div className="section-kicker">پشتوانه‌ی یک انتخاب مطمئن</div><h2>شفافیت، از اولین<br /><em>کلیک شروع می‌شود.</em></h2><p>قیمت‌ها، کارمزدها و وضعیت سفارش را واضح می‌بینید. لایه‌های امنیتی پیشرفته و پشتیبانی فارسی ۲۴ ساعته، مسیر معامله را مطمئن‌تر می‌کنند.</p><a className="text-link light-link" href="#security">با امنیت بیت۲۴ آشنا شوید <ArrowLeft size={18} /></a></div><div className="trust-points"><div className="trust-point"><span className="trust-icon"><ShieldCheck size={21} /></span><div><h3>دارایی امن</h3><p>ترکیب کیف‌پول‌های سرد و گرم برای نگهداری ایمن و دسترسی سریع.</p></div></div><div className="trust-point"><span className="trust-icon"><Clock3 size={21} /></span><div><h3>پشتیبانی ۲۴/۷</h3><p>هر زمان نیاز داشتید، کارشناسان فارسی‌زبان کنار شما هستند.</p></div></div><div className="trust-point"><span className="trust-icon"><Zap size={21} /></span><div><h3>سریع و شفاف</h3><p>از نمایش قیمت نهایی تا انجام سفارش، بدون مرحله‌ی مبهم.</p></div></div></div></div></section>;
+  return <section className="trust-section" id="trust"><div className="page-shell trust-grid"><div className="trust-copy"><div className="section-kicker">بیت۲۴؛ صرافی ارز دیجیتال امن و قابل اعتماد</div><h2>امنیت و اعتماد،<br /><em>اولویت بیت۲۴ است.</em></h2><p>دارایی‌های رمزارزی با استفاده از ترکیب کیف‌پول‌های سرد و گرم، به‌صورت ایمن و با دسترسی سریع نگهداری می‌شوند.</p><a className="text-link light-link" href="#security">با امنیت بیت۲۴ آشنا شوید <ArrowLeft size={18} /></a></div><div className="trust-points"><div className="trust-point"><span className="trust-icon"><ShieldCheck size={21} /></span><div><h3>ذخیره‌سازی امن دارایی‌ها</h3><p>دارایی‌های رمزارزی با استفاده از ترکیب کیف‌پول‌های سرد و گرم، به‌صورت ایمن و با دسترسی سریع نگهداری می‌شوند.</p></div></div><div className="trust-point"><span className="trust-icon"><Clock3 size={21} /></span><div><h3>تنظیمات امنیتی پیشرفته</h3><p>با قابلیت‌هایی مانند رمز تراکنش، عبارت ضد فیشینگ و تأیید دومرحله‌ای، امنیت حساب خود را مطابق نیازتان شخصی‌سازی کنید.</p></div></div><div className="trust-point"><span className="trust-icon"><Zap size={21} /></span><div><h3>برداشت امن دارایی‌ها</h3><p>با تنظیم آدرس‌های خود به‌عنوان آدرس امن، برداشت دارایی را فقط به آدرس مدنظر خود محدود کنید.</p></div></div></div></div></section>;
 }
 
 function Insights() {
-  return <section className="insights-section page-shell" id="blog"><div className="section-head"><div><div className="section-kicker">ایده‌ها و نگاه بیت۲۴</div><h2>برای تصمیم‌های بهتر،<br /><em>به‌روز بمانید.</em></h2></div><p className="section-intro">خبرها، روایت‌ها و تحلیل‌های کاربردی بازار را در یک فضای روشن و قابل‌فهم دنبال کنید.</p></div><div className="insights-grid"><a className="insight-card insight-featured" href="#blog"><div className="insight-visual blog-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="visual-word">BLOG</span><span className="visual-stamp">BIT24 / ۰۱</span><span className="visual-orb orb-one" /><span className="visual-orb orb-two" /></div><div className="insight-content"><div className="insight-meta"><span>وبلاگ بیت۲۴</span><span>خواندنی‌های تازه</span></div><h3>از خبرهای مهم بازار تا راهنمایی‌های کاربردی برای معامله‌گرها</h3><span className="insight-link">رفتن به وبلاگ <ArrowLeft size={17} /></span></div></a><a className="insight-card insight-analysis" id="analysis" href="#analysis"><div className="insight-visual analysis-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="analysis-chart"><i /><i /><i /><i /><i /></span><span className="analysis-badge">LIVE<br />MARKET</span></div><div className="insight-content"><div className="insight-meta"><span>تحلیل بازار</span><span>روزانه</span></div><h3>روندها را ببینید، قبل از اینکه تصمیم بگیرید</h3><span className="insight-link">مشاهده تحلیل‌ها <ArrowLeft size={17} /></span></div></a></div></section>;
+  return <section className="insights-section page-shell" id="blog"><div className="section-head"><div><div className="section-kicker">وبلاگ و تحلیل‌های بیت۲۴</div><h2>برای تصمیم‌های بهتر،<br /><em>به‌روز بمانید.</em></h2></div><p className="section-intro">با جدیدترین اخبار، آموزش‌ها و مقالات تحلیلی در دنیای رمزارزها همراه شوید.</p></div><div className="insights-grid"><a className="insight-card insight-featured" href="#blog"><div className="insight-visual blog-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="visual-word">BLOG</span><span className="visual-stamp">BIT24 / ۰۱</span><span className="visual-orb orb-one" /><span className="visual-orb orb-two" /></div><div className="insight-content"><div className="insight-meta"><span>وبلاگ</span><span>اخبار و آموزش</span></div><h3>با جدیدترین اخبار، آموزش‌ها و مقالات تحلیلی در دنیای رمزارزها همراه شوید.</h3><span className="insight-link">رفتن به وبلاگ <ArrowLeft size={17} /></span></div></a><a className="insight-card insight-analysis" id="analysis" href="#analysis"><div className="insight-visual analysis-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="analysis-chart"><i /><i /><i /><i /><i /></span><span className="analysis-badge">LIVE<br />MARKET</span></div><div className="insight-content"><div className="insight-meta"><span>تحلیل‌ها</span><span>روزانه</span></div><h3>بررسی روندها تا تحلیل‌های تکنیکال و فاندامنتال، همه در اختیار شماست.</h3><span className="insight-link">مشاهده تحلیل‌ها <ArrowLeft size={17} /></span></div></a></div></section>;
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>بیت۲۴؛ راهی ساده، شفاف و امن برای ورود به دنیای ارزهای دیجیتال.</p></div><div><h3>بیت۲۴</h3><a href="#markets">بازارها</a><a href="#services">خدمات</a><a href="#trust">امنیت</a></div><div><h3>مطالب</h3><a href="#blog">وبلاگ</a><a href="#analysis">تحلیل بازار</a><a href="#faq">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ثبت‌نام رایگان <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
+  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>صرافی ارز دیجیتال بیت۲۴ پلتفرم خرید و فروش ارز دیجیتال با امکان معامله سریع، امن و پشتیبانی ۲۴ ساعته است.</p></div><div><h3>بیت۲۴</h3><a href="#markets">بازارها</a><a href="#services">خدمات</a><a href="#trust">امنیت</a></div><div><h3>مطالب</h3><a href="#blog">وبلاگ</a><a href="#analysis">تحلیل‌ها</a><a href="#faq">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
 }
 
 function App() {

@@ -253,6 +253,8 @@ html[data-theme='dark'] .asset-name strong, html[data-theme='dark'] .asset-price
 html[data-theme='dark'] .asset-name small, html[data-theme='dark'] .asset-price small { color: #8ea4b8; }
 html[data-theme='dark'] .services-section { background: var(--canvas); }
 html[data-theme='dark'] .service-card.soft { color: #e6f1ff; background: #164266; }
+html[data-theme='dark'] .service-card.ink { color: #0b0f14; background: #b8ddff; }
+html[data-theme='dark'] .service-card.ink .service-link { color: #0b0f14; }
 html[data-theme='dark'] .trust-section { background: #06172a; }
 html[data-theme='dark'] .analysis-visual { background: #071b31; }
 html[data-theme='dark'] .insight-card { border-color: #294761; background: #0f2235; }
