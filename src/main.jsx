@@ -180,7 +180,7 @@ function CurrencySelect({ value, onChange, label }) {
   }, [open]);
 
   return (
-    <div className="currency-select" ref={rootRef}>
+    <div className={`currency-select ${open ? 'is-open' : ''}`} ref={rootRef}>
       <span className="sr-only">{label}</span>
       <button className={`currency-trigger ${open ? 'open' : ''}`} type="button" onClick={() => setOpen((current) => !current)} aria-label={label} aria-haspopup="listbox" aria-expanded={open}>
         <span className="currency-trigger-copy"><span className="currency-symbol">{item.mark}</span><span><strong>{item.code}</strong><small>{item.label}</small></span></span>

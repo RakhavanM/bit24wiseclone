@@ -140,22 +140,25 @@ h1 em, h2 em { color: var(--blue); font-style: normal; }
 .converter-card { position: relative; z-index: 2; width: min(100%, 515px); padding: 27px; border: 1px solid #dce8f3; border-radius: 28px; background: rgba(255,255,255,.96); box-shadow: 0 28px 65px rgba(25, 77, 131, .15); }
 .converter-topline { display: flex; align-items: center; gap: 8px; margin-bottom: 21px; color: var(--ink-2); font-size: 13px; font-weight: 700; }
 .live-dot { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: #2bbd75; box-shadow: 0 0 0 5px rgba(43,189,117,.12); }
-.converter-fields { position: relative; display: grid; gap: 10px; }
-.money-field { padding: 15px; border: 1px solid #dce5ed; border-radius: 17px; background: #fbfdff; transition: border .2s ease, box-shadow .2s ease; }
+.converter-fields { position: relative; display: grid; gap: 10px; overflow: visible; }
+.money-field { position: relative; overflow: visible; padding: 15px; border: 1px solid #dce5ed; border-radius: 17px; background: #fbfdff; transition: border .2s ease, box-shadow .2s ease; }
+.money-field:has(.currency-select.is-open) { z-index: 40; }
 .money-field:focus-within { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(0,114,255,.08); }
 .recipient-field { background: #f7fbff; border-color: #cfe2f6; }
 .field-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; color: #657282; font-size: 12px; font-weight: 600; }
 .field-hint { color: #8a98a7; font-size: 11px; }
 .success-hint { color: var(--green); }
-.money-input-wrap { display: flex; align-items: center; gap: 10px; direction: ltr; }
+.money-input-wrap { display: flex; align-items: center; gap: 10px; direction: ltr; overflow: visible; }
 .money-input-wrap input, .money-output { min-width: 0; flex: 1; border: 0; outline: 0; color: var(--blue-dark); background: transparent; font-size: 24px; font-weight: 800; letter-spacing: -.05em; text-align: left; }
 .currency-select { position: relative; z-index: 8; flex: 0 0 auto; }
+.currency-select.is-open { z-index: 30; }
 .currency-trigger { min-width: 116px; min-height: 46px; display: inline-flex; align-items: center; justify-content: space-between; gap: 9px; padding: 0 10px; border: 1px solid #cfe2f6; border-radius: 12px; color: var(--ink-2); background: #eaf4ff; font-size: 13px; transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease; }
 .currency-trigger:hover, .currency-trigger.open { border-color: var(--blue); background: #dceeff; box-shadow: 0 0 0 3px rgba(0,114,255,.08); }
 .currency-trigger-copy { display: inline-flex; align-items: center; gap: 7px; text-align: right; }
 .currency-trigger-copy > span:last-child, .currency-option-copy { display: grid; gap: 1px; }
 .currency-trigger-copy small, .currency-option-copy small { color: #728396; font-size: 10px; font-weight: 500; }
-.currency-menu { position: absolute; z-index: 20; top: calc(100% + 8px); right: 0; min-width: 190px; padding: 7px; overflow: hidden; border: 1px solid #cfe2f6; border-radius: 16px; background: var(--surface); box-shadow: 0 18px 38px rgba(19, 73, 126, .18); }
+.currency-menu { position: absolute; z-index: 100; top: calc(100% + 8px); right: 0; min-width: 190px; padding: 7px; overflow: hidden; border: 1px solid #cfe2f6; border-radius: 16px; background: var(--surface); box-shadow: 0 18px 38px rgba(19, 73, 126, .18); }
+.money-field:first-child .currency-select.is-open .currency-menu { top: auto; bottom: calc(100% + 8px); }
 .currency-option { width: 100%; min-height: 48px; display: flex; align-items: center; gap: 9px; padding: 6px 8px; border: 0; border-radius: 10px; color: var(--ink-2); background: transparent; text-align: right; }
 .currency-option:hover, .currency-option.active { background: var(--blue-soft); }.currency-option > svg { margin-inline-start: auto; color: var(--blue); }.currency-option-copy strong { font-size: 12px; }.currency-option .currency-symbol { width: 25px; height: 25px; }
 .currency-symbol { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--blue); font-size: 12px; font-weight: 900; }
