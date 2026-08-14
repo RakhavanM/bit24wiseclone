@@ -62,7 +62,8 @@ function Header({ onMenu }) {
           <a href="#markets">بازارها</a>
           <a href="#services">خدمات بیت۲۴</a>
           <a href="#trust">امنیت و اعتماد</a>
-          <a href="#learn">آموزش</a>
+          <a href="#blog">وبلاگ</a>
+          <a href="#analysis">تحلیل</a>
         </nav>
         <div className="header-actions">
           <button className="help-button" type="button" aria-label="راهنما"><CircleHelp size={19} strokeWidth={1.8} /></button>
@@ -86,7 +87,8 @@ function MobileMenu({ open, onClose }) {
           <a href="#markets" onClick={onClose}>بازارها</a>
           <a href="#services" onClick={onClose}>خدمات بیت۲۴</a>
           <a href="#trust" onClick={onClose}>امنیت و اعتماد</a>
-          <a href="#learn" onClick={onClose}>آموزش</a>
+          <a href="#blog" onClick={onClose}>وبلاگ</a>
+          <a href="#analysis" onClick={onClose}>تحلیل</a>
         </div>
         <a className="primary-button mobile-signup" href="#signup" onClick={onClose}>شروع کنید <ArrowLeft size={18} /></a>
       </div>
@@ -162,7 +164,7 @@ function Hero() {
           <div className="hero-actions"><a className="primary-button large" href="#signup">همین حالا شروع کنید <ArrowLeft size={20} /></a><a className="text-link" href="#markets">قیمت‌ها را ببینید <ChevronLeft size={18} /></a></div>
           <div className="hero-assurance"><ShieldCheck size={17} /><span>امن، شفاف و در دسترس؛ ۲۴ ساعت شبانه‌روز</span></div>
         </div>
-        <div className="hero-product"><Converter /><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /></div>
+        <div className="hero-product visual-pattern"><span className="pattern-layer" aria-hidden="true" /><Converter /><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /></div>
       </div>
       <div className="hero-ticker"><div className="ticker-inner"><span className="ticker-label"><span className="live-dot" /> بازار زنده</span>{marketRows.map((row) => <a className="ticker-item" href={`#${row.code.toLowerCase()}`} key={row.code}><CoinBadge coin={row} small /><strong>{row.code}</strong><span>{row.price}</span><b className={row.trend}>{row.change}</b></a>)}</div></div>
     </section>
@@ -191,24 +193,24 @@ function Services() {
     { number: '۰۲', title: 'بازار اسپات', body: 'برای معامله‌گرهای حرفه‌ای؛ سفارش‌گذاری دقیق با ابزارهای کامل بازار.', tone: 'ink', icon: '⌁' },
     { number: '۰۳', title: 'معامله اهرم‌دار', body: 'فرصت‌های بازار را با مدیریت ریسک و ابزارهای کنترل سود و ضرر دنبال کنید.', tone: 'soft', icon: '◒' },
   ];
-  return <section className="section services-section" id="services"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">یک حساب، چند مسیر</div><h2>هرچطور که معامله می‌کنید،<br /><em>بیت۲۴ همراه شماست.</em></h2></div><p className="section-intro">از خرید ساده تا معامله‌ی حرفه‌ای، همه‌چیز را در یک تجربه‌ی یکپارچه داشته باشید.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone}`} href="#signup" key={service.number}><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">بیشتر بدانید <ArrowLeft size={17} /></span></a>)}</div></div></section>;
+  return <section className="section services-section" id="services"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">یک حساب، چند مسیر</div><h2>هرچطور که معامله می‌کنید،<br /><em>بیت۲۴ همراه شماست.</em></h2></div><p className="section-intro">از خرید ساده تا معامله‌ی حرفه‌ای، همه‌چیز را در یک تجربه‌ی یکپارچه داشته باشید.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone} visual-pattern`} href="#signup" key={service.number}><span className="pattern-layer" aria-hidden="true" /><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">بیشتر بدانید <ArrowLeft size={17} /></span></a>)}</div></div></section>;
 }
 
 function Trust() {
   return <section className="trust-section" id="trust"><div className="page-shell trust-grid"><div className="trust-copy"><div className="section-kicker">پشتوانه‌ی یک انتخاب مطمئن</div><h2>شفافیت، از اولین<br /><em>کلیک شروع می‌شود.</em></h2><p>قیمت‌ها، کارمزدها و وضعیت سفارش را واضح می‌بینید. لایه‌های امنیتی پیشرفته و پشتیبانی فارسی ۲۴ ساعته، مسیر معامله را مطمئن‌تر می‌کنند.</p><a className="text-link light-link" href="#security">با امنیت بیت۲۴ آشنا شوید <ArrowLeft size={18} /></a></div><div className="trust-points"><div className="trust-point"><span className="trust-icon"><ShieldCheck size={21} /></span><div><h3>دارایی امن</h3><p>ترکیب کیف‌پول‌های سرد و گرم برای نگهداری ایمن و دسترسی سریع.</p></div></div><div className="trust-point"><span className="trust-icon"><Clock3 size={21} /></span><div><h3>پشتیبانی ۲۴/۷</h3><p>هر زمان نیاز داشتید، کارشناسان فارسی‌زبان کنار شما هستند.</p></div></div><div className="trust-point"><span className="trust-icon"><Zap size={21} /></span><div><h3>سریع و شفاف</h3><p>از نمایش قیمت نهایی تا انجام سفارش، بدون مرحله‌ی مبهم.</p></div></div></div></div></section>;
 }
 
-function Learn() {
-  return <section className="learn-section page-shell" id="learn"><div className="learn-card"><div><div className="section-kicker">برای شروع لازم نیست حرفه‌ای باشید</div><h2>هر چیزی که برای<br /><em>اولین قدم</em> نیاز دارید.</h2><p>با آموزش‌های بیت۲۴، مفاهیم بازار، مدیریت ریسک و ابزارهای معامله را ساده و کاربردی یاد بگیرید.</p><a className="primary-button" href="#academy">ورود به آکادمی <ArrowLeft size={18} /></a></div><div className="learn-visual"><div className="learn-ring ring-a" /><div className="learn-ring ring-b" /><span className="learn-symbol">₿</span><span className="learn-chip chip-a">نرخ شفاف</span><span className="learn-chip chip-b">آموزش رایگان</span></div></div></section>;
+function Insights() {
+  return <section className="insights-section page-shell" id="blog"><div className="section-head"><div><div className="section-kicker">ایده‌ها و نگاه بیت۲۴</div><h2>برای تصمیم‌های بهتر،<br /><em>به‌روز بمانید.</em></h2></div><p className="section-intro">خبرها، روایت‌ها و تحلیل‌های کاربردی بازار را در یک فضای روشن و قابل‌فهم دنبال کنید.</p></div><div className="insights-grid"><a className="insight-card insight-featured" href="#blog"><div className="insight-visual blog-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="visual-word">BLOG</span><span className="visual-stamp">BIT24 / ۰۱</span><span className="visual-orb orb-one" /><span className="visual-orb orb-two" /></div><div className="insight-content"><div className="insight-meta"><span>وبلاگ بیت۲۴</span><span>خواندنی‌های تازه</span></div><h3>از خبرهای مهم بازار تا راهنمایی‌های کاربردی برای معامله‌گرها</h3><span className="insight-link">رفتن به وبلاگ <ArrowLeft size={17} /></span></div></a><a className="insight-card insight-analysis" id="analysis" href="#analysis"><div className="insight-visual analysis-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><span className="analysis-chart"><i /><i /><i /><i /><i /></span><span className="analysis-badge">LIVE<br />MARKET</span></div><div className="insight-content"><div className="insight-meta"><span>تحلیل بازار</span><span>روزانه</span></div><h3>روندها را ببینید، قبل از اینکه تصمیم بگیرید</h3><span className="insight-link">مشاهده تحلیل‌ها <ArrowLeft size={17} /></span></div></a></div></section>;
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>بیت۲۴؛ راهی ساده، شفاف و امن برای ورود به دنیای ارزهای دیجیتال.</p></div><div><h3>بیت۲۴</h3><a href="#markets">بازارها</a><a href="#services">خدمات</a><a href="#trust">امنیت</a></div><div><h3>راهنما</h3><a href="#learn">آکادمی</a><a href="#faq">سوالات متداول</a><a href="#support">پشتیبانی</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ثبت‌نام رایگان <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
+  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>بیت۲۴؛ راهی ساده، شفاف و امن برای ورود به دنیای ارزهای دیجیتال.</p></div><div><h3>بیت۲۴</h3><a href="#markets">بازارها</a><a href="#services">خدمات</a><a href="#trust">امنیت</a></div><div><h3>مطالب</h3><a href="#blog">وبلاگ</a><a href="#analysis">تحلیل بازار</a><a href="#faq">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ثبت‌نام رایگان <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
 }
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  return <><Header onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Stats /><Markets /><Services /><Trust /><Learn /></main><Footer /></>;
+  return <><Header onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></main><Footer /></>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);
