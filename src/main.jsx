@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowLeft,
@@ -27,10 +27,10 @@ import {
 import './styles.css';
 
 const currencies = {
-  IRT: { code: 'IRT', label: 'تومان', flag: 'تومان', rate: 186960, direction: 'ریال' },
-  USDT: { code: 'USDT', label: 'تتر', flag: '₮', rate: 1, direction: 'USDT' },
-  BTC: { code: 'BTC', label: 'بیت‌کوین', flag: '₿', rate: 62911.05, direction: 'USDT' },
-  ETH: { code: 'ETH', label: 'اتریوم', flag: 'Ξ', rate: 1875.42, direction: 'USDT' },
+  IRT: { code: 'IRT', label: 'تومان', mark: 'ت', usdtValue: 1 / 186960, precision: 0 },
+  USDT: { code: 'USDT', label: 'تتر', mark: '₮', usdtValue: 1, precision: 2 },
+  BTC: { code: 'BTC', label: 'بیت‌کوین', mark: '₿', usdtValue: 62911.05, precision: 8 },
+  ETH: { code: 'ETH', label: 'اتریوم', mark: 'Ξ', usdtValue: 1875.42, precision: 6 },
 };
 
 const marketRows = [
@@ -49,6 +49,39 @@ const stats = [
 
 function formatNumber(value, maximumFractionDigits = 2) {
   return new Intl.NumberFormat('fa-IR', { maximumFractionDigits }).format(value);
+}
+
+function normalizeAmount(value) {
+  const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
+  const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
+  let normalized = String(value ?? '')
+    .split('')
+    .map((character) => {
+      const persianIndex = persianDigits.indexOf(character);
+      if (persianIndex > -1) return String(persianIndex);
+      const arabicIndex = arabicDigits.indexOf(character);
+      return arabicIndex > -1 ? String(arabicIndex) : character;
+    })
+    .join('')
+    .replace(/[٬,\s]/g, '')
+    .replace(/[^0-9.]/g, '');
+  const firstDot = normalized.indexOf('.');
+  if (firstDot > -1) {
+    normalized = `${normalized.slice(0, firstDot)}.${normalized.slice(firstDot + 1).replace(/\./g, '')}`;
+  }
+  if (!normalized) return '';
+  const [whole = '0', fraction] = normalized.split('.');
+  const cleanWhole = whole.replace(/^0+(?=\d)/, '') || '0';
+  return fraction === undefined ? cleanWhole : `${cleanWhole}.${fraction.slice(0, 8)}`;
+}
+
+function formatCurrencyAmount(value, currencyCode) {
+  const currency = currencies[currencyCode];
+  if (!Number.isFinite(value)) return '۰';
+  return new Intl.NumberFormat('fa-IR', {
+    maximumFractionDigits: currency.precision,
+    minimumFractionDigits: 0,
+  }).format(value);
 }
 
 function Logo() {
@@ -127,14 +160,38 @@ function CoinBadge({ coin, small = false }) {
 
 function CurrencySelect({ value, onChange, label }) {
   const item = currencies[value];
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!rootRef.current?.contains(event.target)) setOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutsideClick);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [open]);
+
   return (
-    <label className="currency-select">
+    <div className="currency-select" ref={rootRef}>
       <span className="sr-only">{label}</span>
-      <select value={value} onChange={(event) => onChange(event.target.value)} aria-label={label}>
-        {Object.values(currencies).map((currency) => <option key={currency.code} value={currency.code}>{currency.code} — {currency.label}</option>)}
-      </select>
-      <span className="currency-selected"><span className="currency-symbol">{item.flag}</span><strong>{item.code}</strong><ChevronDown size={15} /></span>
-    </label>
+      <button className={`currency-trigger ${open ? 'open' : ''}`} type="button" onClick={() => setOpen((current) => !current)} aria-label={label} aria-haspopup="listbox" aria-expanded={open}>
+        <span className="currency-trigger-copy"><span className="currency-symbol">{item.mark}</span><span><strong>{item.code}</strong><small>{item.label}</small></span></span>
+        <ChevronDown size={15} />
+      </button>
+      {open && <div className="currency-menu" role="listbox" aria-label={label}>
+        {Object.values(currencies).map((currency) => <button className={`currency-option ${currency.code === value ? 'active' : ''}`} type="button" role="option" aria-selected={currency.code === value} key={currency.code} onClick={() => { onChange(currency.code); setOpen(false); }}>
+          <span className="currency-symbol">{currency.mark}</span><span className="currency-option-copy"><strong>{currency.code}</strong><small>{currency.label}</small></span>{currency.code === value && <Check size={16} />}
+        </button>)}
+      </div>}
+    </div>
   );
 }
 
@@ -142,16 +199,13 @@ function Converter() {
   const [from, setFrom] = useState('IRT');
   const [to, setTo] = useState('USDT');
   const [amount, setAmount] = useState('10000000');
-  const numericAmount = Number(amount.replace(/[^0-9.]/g, '')) || 0;
+  const numericAmount = Number(amount) || 0;
   const recipient = useMemo(() => {
-    if (from === 'IRT' && to === 'USDT') return numericAmount / currencies.IRT.rate;
-    if (from === 'USDT' && to === 'IRT') return numericAmount * currencies.IRT.rate;
-    const fromRate = currencies[from].rate;
-    const toRate = currencies[to].rate;
-    return (numericAmount * fromRate) / toRate;
+    return numericAmount * currencies[from].usdtValue / currencies[to].usdtValue;
   }, [from, to, numericAmount]);
-  const fee = from === 'IRT' && to === 'USDT' ? 0 : recipient * 0.001;
-  const recipientDisplay = recipient ? formatNumber(recipient, recipient < 100 ? 6 : 2) : '۰';
+  const exchangeRate = currencies[to].usdtValue / currencies[from].usdtValue;
+  const recipientDisplay = numericAmount > 0 ? formatCurrencyAmount(recipient, to) : '۰';
+  const exchangeRateDisplay = formatCurrencyAmount(exchangeRate, from);
   const swap = () => { setFrom(to); setTo(from); };
 
   return (
@@ -160,20 +214,20 @@ function Converter() {
       <div className="converter-fields">
         <div className="money-field">
           <div className="field-label"><span>پرداخت می‌کنید</span><span className="field-hint">قیمت نهایی</span></div>
-          <div className="money-input-wrap"><input inputMode="decimal" value={amount} onChange={(event) => setAmount(event.target.value.replace(/[^0-9.]/g, ''))} aria-label="مبلغ پرداخت" /><CurrencySelect value={from} onChange={setFrom} label="ارز پرداخت" /></div>
+          <div className="money-input-wrap"><input dir="ltr" inputMode="decimal" value={amount} onChange={(event) => setAmount(normalizeAmount(event.target.value))} aria-label="مبلغ پرداخت" /><CurrencySelect value={from} onChange={setFrom} label="ارز پرداخت" /></div>
         </div>
         <button className="swap-button" type="button" onClick={swap} aria-label="جابه‌جایی ارزها"><ArrowUpLeft size={19} /></button>
         <div className="money-field recipient-field">
           <div className="field-label"><span>دریافت می‌کنید</span><span className="field-hint success-hint">واریز سریع</span></div>
-          <div className="money-input-wrap"><output className="money-output">{recipientDisplay}</output><CurrencySelect value={to} onChange={setTo} label="ارز دریافتی" /></div>
+          <div className="money-input-wrap"><output className="money-output" dir="ltr" aria-live="polite">{recipientDisplay}</output><CurrencySelect value={to} onChange={setTo} label="ارز دریافتی" /></div>
         </div>
       </div>
       <div className="converter-summary">
-        <span>کارمزد تقریبی <strong>{formatNumber(fee, 2)} {to}</strong></span>
-        <span>نمایش هزینه <strong>پیش از تأیید</strong></span>
+        <span>کارمزد معامله <strong>۰٪</strong></span>
+        <span>نرخ تبدیل <strong>۱ {to} ≈ {exchangeRateDisplay} {from}</strong></span>
       </div>
       <a className="primary-button converter-cta" href="#signup">شروع خرید <ArrowLeft size={18} /></a>
-      <p className="converter-note">بدون غافلگیری؛ قبل از تأیید، جزئیات کامل را می‌بینید.</p>
+      <p className="converter-note">قیمت نمایش‌داده‌شده، قیمت نهایی معامله است.</p>
     </div>
   );
 }
