@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { SpotTerminalPage } from './SpotTerminalPage';
 import {
+  Activity,
+  ArrowDownUp,
   ArrowLeft,
   ArrowUpLeft,
   BarChart3,
@@ -422,6 +425,7 @@ function InnerPageRouter() {
   if (path === 'buy-sell') return <BuySellPage />;
   if (path === 'markets') return <MarketsPage />;
   if (path === 'services') return <ServicesPage />;
+  if (path === 'trade/spot-terminal') return <SpotTerminalPage />;
   if (path === 'trade/spot') return <TradeLanding type="spot" />;
   if (path === 'trade/leverage') return <TradeLanding type="leverage" />;
   if (path === 'trade/bots') return <TradeLanding type="bots" />;
