@@ -48,6 +48,23 @@ const stats = [
   { value: '۰٫۰۷٪ تا ۰٫۲٪', label: 'کمترین کارمزد بازار', icon: TrendingUp },
 ];
 
+const cryptoLogos = [
+  { code: 'BTC', name: 'بیت‌کوین', file: 'btc', tone: 'orange' },
+  { code: 'ETH', name: 'اتریوم', file: 'eth', tone: 'blue' },
+  { code: 'SOL', name: 'سولانا', file: 'sol', tone: 'purple' },
+  { code: 'XRP', name: 'ریپل', file: 'xrp', tone: 'slate' },
+  { code: 'USDT', name: 'تتر', file: 'usdt', tone: 'green' },
+  { code: 'BNB', name: 'بایننس‌کوین', file: 'bnb', tone: 'gold' },
+  { code: 'TRX', name: 'ترون', file: 'trx', tone: 'red' },
+  { code: 'ADA', name: 'کاردانو', file: 'ada', tone: 'blue' },
+  { code: 'DOGE', name: 'دوج‌کوین', file: 'doge', tone: 'yellow' },
+  { code: 'DOT', name: 'پولکادات', file: 'dot', tone: 'pink' },
+  { code: 'AVAX', name: 'آوالانچ', file: 'avax', tone: 'red' },
+  { code: 'MATIC', name: 'پالیگان', file: 'matic', tone: 'purple' },
+  { code: 'LINK', name: 'چین‌لینک', file: 'link', tone: 'blue' },
+];
+
+
 function formatNumber(value, maximumFractionDigits = 2) {
   return new Intl.NumberFormat('fa-IR', { maximumFractionDigits }).format(value);
 }
@@ -267,6 +284,12 @@ function Stats() {
   return <section className="stats-section page-shell" aria-label="آمار بیت۲۴">{stats.map(({ value, label, icon: Icon }) => <div className="stat" key={label}><Icon size={20} strokeWidth={1.7} /><strong>{value}</strong><span>{label}</span></div>)}</section>;
 }
 
+function CryptoLogoRibbon() {
+  const firstRow = cryptoLogos.slice(0, 7);
+  const secondRow = cryptoLogos.slice(6).concat(cryptoLogos.slice(0, 6));
+  return <section className="crypto-ribbon" aria-label="ارزهای دیجیتال بیت۲۴"><div className="page-shell crypto-ribbon-head"><div><div className="section-kicker">یک بازار، انتخاب‌های بیشتر</div><h2>دنیای رمزارزها<br /><em>همیشه در حرکت است.</em></h2></div><p>با اسکرول صفحه، مسیر لوگوهای محبوب بازار را دنبال کنید.</p></div><div className="crypto-ribbon-stage"><div className="crypto-ribbon-fade fade-right" /><div className="crypto-ribbon-fade fade-left" /><div className="crypto-logo-row row-forward" data-direction="forward">{firstRow.concat(firstRow).map((coin, index) => <a className={`crypto-logo-card ${coin.tone}`} href={`#/markets?asset=${coin.code}`} key={`top-${coin.code}-${index}`}><span className="crypto-logo-image"><img src={`/bit24wiseclone/assets/coins/${coin.file}.png`} alt="" /></span><span><strong>{coin.code}</strong><small>{coin.name}</small></span></a>)}</div><div className="crypto-logo-row row-reverse" data-direction="reverse">{secondRow.concat(secondRow).map((coin, index) => <a className={`crypto-logo-card ${coin.tone}`} href={`#/markets?asset=${coin.code}`} key={`bottom-${coin.code}-${index}`}><span className="crypto-logo-image"><img src={`/bit24wiseclone/assets/coins/${coin.file}.png`} alt="" /></span><span><strong>{coin.code}</strong><small>{coin.name}</small></span></a>)}</div></div></section>;
+}
+
 function Markets() {
   const [tab, setTab] = useState('hot');
   const tabs = { hot: 'داغ‌ترین‌ها', gainers: 'بیشترین رشد', new: 'جدیدها' };
@@ -408,10 +431,31 @@ function InnerPageRouter() {
   return null;
 }
 
+function useScrollShift() {
+  const [scrollY, setScrollY] = useState(0);
+  useEffect(() => {
+    let frame = 0;
+    const handleScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        frame = 0;
+      });
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+  return scrollY;
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const [route, setRoute] = useState(window.location.hash);
+  const scrollY = useScrollShift();
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -426,7 +470,7 @@ function App() {
   }, []);
 
   const innerPage = route.startsWith('#/');
-  return <><Header theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main>{innerPage ? <InnerPageRouter /> : <><Hero /><Stats /><Markets /><Services /><Trust /><Insights /></>}</main><Footer /></>;
+  return <><Header theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main style={{ '--ribbon-scroll': `${scrollY}px` }}>{innerPage ? <InnerPageRouter /> : <><Hero /><Stats /><CryptoLogoRibbon /><Markets /><Services /><Trust /><Insights /></>}</main><Footer /></>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);
