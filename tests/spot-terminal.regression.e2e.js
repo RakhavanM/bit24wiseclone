@@ -31,8 +31,8 @@ test.describe('Bit24Wise spot terminal regressions', () => {
     expect(sideColumn).toHaveCount(1);
     expect(bookBox.width).toBeGreaterThanOrEqual(290);
     expect(recentBox.width).toBeGreaterThanOrEqual(290);
-    expect(bookBox.x).toBeGreaterThan(chartBox.x);
-    expect(recentBox.x).toBeGreaterThan(chartBox.x);
+    expect(bookBox.x).toBeGreaterThan(chartBox.x + chartBox.width);
+    expect(recentBox.x + recentBox.width).toBeLessThan(chartBox.x);
     expect(tradeBox.y).toBeGreaterThan(chartBox.y + chartBox.height - 10);
     expect(Math.abs(tradeBox.x - chartBox.x)).toBeLessThan(3);
     expect(Math.abs(tradeBox.width - chartBox.width)).toBeLessThan(3);
