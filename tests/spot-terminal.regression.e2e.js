@@ -7,24 +7,35 @@ test.describe('Bit24Wise spot terminal regressions', () => {
     await page.reload();
   });
 
-  test('spot landing links to the working simulated terminal', async ({ page }) => {
+  test('both spot landing CTAs link to the working simulated terminal', async ({ page }) => {
     await page.goto('/bit24wiseclone/#/trade/spot');
-    await page.getByRole('link', { name: 'ورود به محیط معامله' }).click();
+    await page.getByRole('link', { name: 'شروع معامله' }).click();
     await expect(page).toHaveURL(/#\/trade\/spot-terminal$/);
     await expect(page.getByRole('heading', { name: 'معاملات اسپات' })).toBeVisible();
+    await page.goto('/bit24wiseclone/#/trade/spot');
+    await expect(page.getByText('انتخاب و شروع کنید.')).toBeVisible();
+    await page.getByRole('link', { name: 'ورود به بازار' }).click();
+    await expect(page).toHaveURL(/#\/trade\/spot-terminal$/);
   });
 
-  test('keeps order book and recent trades together with usable widths', async ({ page }) => {
+  test('places chart between full-width order book and recent trades sides', async ({ page }) => {
     const orderBook = page.locator('.spot-orderbook');
     const recent = page.locator('.spot-recent');
+    const chart = page.locator('.spot-chart-panel');
+    const trade = page.locator('.spot-trade-card');
     const sideColumn = page.locator('.spot-side-column');
     const bookBox = await orderBook.boundingBox();
     const recentBox = await recent.boundingBox();
-    const sideBox = await sideColumn.boundingBox();
-    expect(sideColumn.locator('.spot-orderbook')).toHaveCount(1);
-    expect(sideColumn.locator('.spot-recent')).toHaveCount(1);
-    expect(recentBox.y).toBeGreaterThan(bookBox.y + bookBox.height - 2);
-    expect(sideBox.width).toBeGreaterThanOrEqual(320);
+    const chartBox = await chart.boundingBox();
+    const tradeBox = await trade.boundingBox();
+    expect(sideColumn).toHaveCount(1);
+    expect(bookBox.width).toBeGreaterThanOrEqual(290);
+    expect(recentBox.width).toBeGreaterThanOrEqual(290);
+    expect(bookBox.x).toBeGreaterThan(chartBox.x);
+    expect(recentBox.x).toBeGreaterThan(chartBox.x);
+    expect(tradeBox.y).toBeGreaterThan(chartBox.y + chartBox.height - 10);
+    expect(Math.abs(tradeBox.x - chartBox.x)).toBeLessThan(3);
+    expect(Math.abs(tradeBox.width - chartBox.width)).toBeLessThan(3);
   });
 
   test('changes the actual chart geometry when timeframe changes', async ({ page }) => {

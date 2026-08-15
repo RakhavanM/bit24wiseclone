@@ -72,7 +72,7 @@ function OrderForm({ side, setSide, symbol, book, balances, onSubmit, selectedPr
   const [amount, setAmount] = useState('');
   const [typeOpen, setTypeOpen] = useState(false);
   const [percentage, setPercentage] = useState(0);
-  useEffect(() => { setPrice(String(selectedPrice || symbol.price)); setAmount(''); setPercentage(0); }, [symbol, selectedPrice]);
+  useEffect(() => { setPrice(String(selectedPrice || symbol.price)); setAmount(''); setPercentage(0); }, [symbol]);
   useEffect(() => { if (selectedPrice) setPrice(String(selectedPrice)); }, [selectedPrice]);
   const available = balances[side === 'buy' ? symbol.quote : symbol.base] || 0;
   const total = (Number(price) || symbol.price) * (Number(amount) || 0);
