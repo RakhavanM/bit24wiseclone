@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowUpLeft,
   BarChart3,
+  Bot,
   BookOpen,
   Check,
   ChevronDown,
@@ -119,7 +120,14 @@ function Header({ onMenu, theme, onToggleTheme }) {
           <a href="#/buy-sell">خرید و فروش</a>
           <a href="#/markets">بازارها</a>
           <a href="#/services">خدمات بیت۲۴</a>
-          <a href="#/services">امنیت و اعتماد</a>
+          <div className="nav-dropdown">
+            <a className="nav-dropdown-trigger" href="#/trade" aria-haspopup="true">معامله <ChevronDown size={14} /></a>
+            <div className="nav-dropdown-menu" role="menu">
+              <a href="#/trade/spot" role="menuitem"><span className="nav-menu-icon"><LineChart size={17} /></span><span><strong>اسپات</strong><small>سفارش‌گذاری حرفه‌ای</small></span></a>
+              <a href="#/trade/leverage" role="menuitem"><span className="nav-menu-icon"><TrendingUp size={17} /></span><span><strong>اهرم‌دار</strong><small>اهرم تا ۵۰X</small></span></a>
+              <a href="#/trade/bots" role="menuitem"><span className="nav-menu-icon"><Bot size={17} /></span><span><strong>ربات‌های معامله‌گر</strong><small>اجرای منظم استراتژی‌ها</small></span></a>
+            </div>
+          </div>
           <a href="#/blog">وبلاگ</a>
           <a href="#/analysis">تحلیل</a>
         </nav>
@@ -144,7 +152,12 @@ function MobileMenu({ open, onClose }) {
           <a href="#/buy-sell" onClick={onClose}>خرید و فروش</a>
           <a href="#/markets" onClick={onClose}>بازارها</a>
           <a href="#/services" onClick={onClose}>خدمات بیت۲۴</a>
-          <a href="#/services" onClick={onClose}>امنیت و اعتماد</a>
+          <div className="mobile-trade-group">
+            <span className="mobile-trade-title">معامله</span>
+            <a href="#/trade/spot" onClick={onClose}>اسپات</a>
+            <a href="#/trade/leverage" onClick={onClose}>اهرم‌دار</a>
+            <a href="#/trade/bots" onClick={onClose}>ربات‌های معامله‌گر</a>
+          </div>
           <a href="#/blog" onClick={onClose}>وبلاگ</a>
           <a href="#/analysis" onClick={onClose}>تحلیل</a>
         </div>
@@ -268,11 +281,11 @@ function Markets() {
 
 function Services() {
   const services = [
-    { number: '۰۱', title: 'خرید و فروش آنی', body: 'در بازار خرید و فروش آنی بیت۲۴، کارمزد معامله صفر است و قیمت نهایی را می‌بینید.', tone: 'blue', icon: '↗' },
-    { number: '۰۲', title: 'معامله اسپات', body: 'بیشترین تنوع ابزارهای سفارش‌گذاری بازار اسپات در ایران.', tone: 'ink', icon: '⌁' },
-    { number: '۰۳', title: 'معامله اهرم‌دار', body: 'خرید و فروش ارزهای دیجیتال تا اهرم ۵۰X و امکان تنظیم حد سود و ضرر برای مدیریت ریسک.', tone: 'soft', icon: '◒' },
+    { number: '۰۱', title: 'اسپات', body: 'بیشترین تنوع ابزارهای سفارش‌گذاری بازار اسپات در ایران.', tone: 'blue', icon: '⌁', href: '#/trade/spot' },
+    { number: '۰۲', title: 'اهرم‌دار', body: 'خرید و فروش ارزهای دیجیتال تا اهرم ۵۰X و امکان تنظیم حد سود و ضرر برای مدیریت ریسک.', tone: 'ink', icon: '◒', href: '#/trade/leverage' },
+    { number: '۰۳', title: 'ربات‌های معامله‌گر', body: 'استراتژی معاملاتی خود را منظم‌تر اجرا کنید و بازار را شبانه‌روزی زیر نظر داشته باشید.', tone: 'soft', icon: '⌁', href: '#/trade/bots' },
   ];
-  return <section className="section services-section" id="services"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">برخی از خدمات صرافی ارز دیجیتال بیت۲۴</div><h2>مسیر معامله‌تان را<br /><em>خودتان انتخاب کنید.</em></h2></div><p className="section-intro">از تبدیل سریع تا ابزارهای حرفه‌ای، امکانات بیت۲۴ برای سبک‌های مختلف معامله طراحی شده است.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone} visual-pattern`} href="#signup" key={service.number}><span className="pattern-layer" aria-hidden="true" /><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">بیشتر بدانید <ArrowLeft size={17} /></span></a>)}</div></div></section>;
+  return <section className="section services-section" id="trade"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">سه مسیر برای معامله</div><h2>روش معامله‌تان را<br /><em>خودتان انتخاب کنید.</em></h2></div><p className="section-intro">از سفارش‌گذاری حرفه‌ای تا اجرای منظم استراتژی‌ها، ابزار مناسب خود را پیدا کنید.</p></div><div className="service-grid">{services.map((service) => <a className={`service-card ${service.tone} visual-pattern`} href={service.href} key={service.number}><span className="pattern-layer" aria-hidden="true" /><div className="service-number">{service.number}</div><div className="service-icon">{service.icon}</div><h3>{service.title}</h3><p>{service.body}</p><span className="service-link">ورود به بخش <ArrowLeft size={17} /></span></a>)}</div></div></section>;
 }
 
 function Trust() {
@@ -284,7 +297,7 @@ function Insights() {
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>قیمت‌های لحظه‌ای، ابزارهای متنوع و مدیریت ساده‌ی دارایی در یک حساب.</p></div><div><h3>بیت۲۴</h3><a href="#/markets">بازارها</a><a href="#/services">خدمات</a><a href="#/services">امنیت</a></div><div><h3>مطالب</h3><a href="#/blog">وبلاگ</a><a href="#/analysis">تحلیل‌ها</a><a href="#/blog">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
+  return <footer className="site-footer"><div className="page-shell footer-grid"><div><Logo /><p>قیمت‌های لحظه‌ای، ابزارهای متنوع و مدیریت ساده‌ی دارایی در یک حساب.</p></div><div><h3>بیت۲۴</h3><a href="#/markets">بازارها</a><a href="#/services">خدمات</a><a href="#/trade">معامله</a></div><div><h3>مطالب</h3><a href="#/blog">وبلاگ</a><a href="#/analysis">تحلیل‌ها</a><a href="#/blog">سوالات متداول</a></div><div><h3>شروع کنید</h3><a className="footer-cta" href="#signup">ورود یا ثبت‌نام <ArrowLeft size={16} /></a><span className="footer-note">نسخه‌ی مفهومی برای بررسی UI</span></div></div><div className="page-shell footer-bottom"><span>© بیت۲۴ — تمامی حقوق محفوظ است.</span><span>طراحی مفهومی با الهام از الگوهای شفاف و انسان‌محور</span></div></footer>;
 }
 
 function PageIntro({ eyebrow, title, description, action, tone = 'blue' }) {
@@ -318,6 +331,54 @@ function ServicesPage() {
   return <div className="inner-page"><PageIntro eyebrow="خدمات بیت۲۴" title={<>یک حساب،<br /><em>چند مسیر برای معامله.</em></>} description="از خرید ساده تا ابزارهای حرفه‌ای، خدمات بیت۲۴ برای نیازهای مختلف شما آماده است." /><section className="page-shell inner-section"><div className="section-head"><div><div className="section-kicker">ابزارهای مورد نیاز شما</div><h2>هر خدمت، برای<br /><em>یک تصمیم بهتر.</em></h2></div></div><div className="service-directory">{services.map(({ icon: Icon, title, text, tone }) => <a className={`directory-card ${tone} visual-pattern`} href="#/buy-sell" key={title}><span className="pattern-layer" aria-hidden="true" /><Icon size={25} /><h3>{title}</h3><p>{text}</p><span className="service-link">مشاهده خدمت <ArrowLeft size={17} /></span></a>)}</div></section></div>;
 }
 
+const tradeLandings = {
+  spot: {
+    eyebrow: 'معامله اسپات',
+    title: <>بازار حرفه‌ای،<br /><em>کنترل در دستان شما.</em></>,
+    description: 'بیشترین تنوع ابزارهای سفارش‌گذاری بازار اسپات در ایران؛ برای تصمیم‌گیری دقیق‌تر و اجرای منظم‌تر.',
+    accent: 'blue',
+    icon: LineChart,
+    features: [
+      ['سفارش لیمیت', 'قیمت ورود و خروج را خودتان تعیین کنید.'],
+      ['قیمت بازار', 'سفارش را با بهترین قیمت لحظه‌ای اجرا کنید.'],
+      ['حد سود و ضرر', 'برای سناریوهای مختلف معامله، خروج مشخص داشته باشید.'],
+      ['OCO و حد ضرر متحرک', 'مدیریت سفارش را با ابزارهای پیشرفته‌تر ادامه دهید.'],
+    ],
+  },
+  leverage: {
+    eyebrow: 'معامله اهرم‌دار',
+    title: <>قدرت بیشتر برای<br /><em>سناریوهای بزرگ‌تر.</em></>,
+    description: 'خرید و فروش ارزهای دیجیتال تا اهرم ۵۰X، همراه با ابزارهای مدیریت ریسک و تنظیم حد سود و ضرر.',
+    accent: 'dark',
+    icon: TrendingUp,
+    features: [
+      ['اهرم تا ۵۰X', 'با سرمایه کمتر، قدرت معامله‌ی بیشتری در اختیار داشته باشید.'],
+      ['وجه تضمین شفاف', 'مقدار وجه تضمین و کارمزد تقریبی را پیش از سفارش ببینید.'],
+      ['حد سود و حد ضرر', 'ریسک موقعیت را با نقاط خروج از پیش مشخص‌شده مدیریت کنید.'],
+      ['هشدار ریسک', 'پیش از شروع، سازوکار اهرم و پیامدهای آن را بشناسید.'],
+    ],
+  },
+  bots: {
+    eyebrow: 'ربات‌های معامله‌گر',
+    title: <>استراتژی‌تان را<br /><em>منظم اجرا کنید.</em></>,
+    description: 'ربات‌های معامله‌گر برای اجرای پیوسته‌ی استراتژی‌ها و کاهش تصمیم‌های احساسی در بازار طراحی شده‌اند.',
+    accent: 'soft',
+    icon: Bot,
+    features: [
+      ['اجرای خودکار', 'قواعد استراتژی را تعریف کنید و اجرای آن را به ربات بسپارید.'],
+      ['ربات اسپات گرید', 'خرید و فروش پله‌ای را در یک بازه‌ی مشخص دنبال کنید.'],
+      ['اینفینیتی گرید', 'استراتژی گرید را با انعطاف بیشتر برای بازار دنبال کنید.'],
+      ['اسمارت ریبالانس', 'ترکیب دارایی‌ها را طبق برنامه‌ی معاملاتی خود متعادل کنید.'],
+    ],
+  },
+};
+
+function TradeLanding({ type }) {
+  const landing = tradeLandings[type];
+  const Icon = landing.icon;
+  return <div className={`inner-page trade-landing trade-${type}`}><PageIntro eyebrow={landing.eyebrow} title={landing.title} description={landing.description} action={{ href: '#signup', label: 'شروع معامله' }} tone={landing.accent} /><section className="page-shell inner-section trade-overview"><div className="trade-visual visual-pattern"><span className="pattern-layer" aria-hidden="true" /><div className="trade-visual-orbit orbit-a" /><div className="trade-visual-orbit orbit-b" /><Icon size={78} strokeWidth={1.15} /><span className="trade-visual-label">BIT24 / TRADE</span></div><div className="trade-overview-copy"><div className="section-kicker">ابزارهایی برای تصمیم بهتر</div><h2>{type === 'spot' ? <><span>هر سفارش،</span><br /><em>با کنترل بیشتر.</em></> : type === 'leverage' ? <><span>قبل از هر موقعیت،</span><br /><em>ریسک را ببینید.</em></> : <><span>بازار را دنبال کنید،</span><br /><em>نه هیجان را.</em></>}</h2><p>{type === 'spot' ? 'در بازار اسپات بیت۲۴، انواع سفارش‌ها و ابزارهای کنترل معامله را در یک محیط منظم کنار هم داشته باشید.' : type === 'leverage' ? 'اهرم می‌تواند فرصت و ریسک را هم‌زمان بزرگ‌تر کند؛ ابزارهای مدیریت موقعیت را آگاهانه به کار بگیرید.' : 'ربات‌ها قرار نیست جای تصمیم شما را بگیرند؛ کمک می‌کنند استراتژی‌تان منظم‌تر و پیوسته‌تر اجرا شود.'}</p><a className="text-link" href="#/buy-sell">ورود به محیط معامله <ArrowLeft size={18} /></a></div></section><section className="section trade-features-section"><div className="page-shell"><div className="section-head"><div><div className="section-kicker">ویژگی‌های این مسیر</div><h2>آنچه در اختیار<br /><em>شماست.</em></h2></div><p className="section-intro">هر ابزار با هدف ساده‌کردن تصمیم‌گیری و روشن‌ترشدن فرایند معامله طراحی شده است.</p></div><div className="trade-feature-grid">{landing.features.map(([title, text], index) => <div className="trade-feature" key={title}><span>۰{index + 1}</span><h3>{title}</h3><p>{text}</p></div>)}</div></div></section><section className="page-shell trade-cta-band"><div><div className="section-kicker">آماده‌اید؟</div><h2>مسیر خود را انتخاب کنید<br /><em>و شروع کنید.</em></h2></div><a className="primary-button large" href="#/buy-sell">ورود به بازار <ArrowLeft size={20} /></a></section></div>;
+}
+
 const blogPosts = [
   { category: 'امنیت', title: 'چگونه حساب خود را امن‌تر کنیم؟', excerpt: 'لورم ایپسوم فارسی؛ چند نکته‌ی کاربردی برای شناخت بهتر تنظیمات امنیتی و مدیریت دسترسی‌ها.', tone: 'blue' },
   { category: 'آموزشی', title: 'بازار اسپات چیست و چگونه کار می‌کند؟', excerpt: 'لورم ایپسوم فارسی؛ مروری کوتاه بر سفارش‌گذاری، قیمت بازار و تفاوت معامله‌ی آنی با بازار اسپات.', tone: 'light' },
@@ -338,6 +399,10 @@ function InnerPageRouter() {
   if (path === 'buy-sell') return <BuySellPage />;
   if (path === 'markets') return <MarketsPage />;
   if (path === 'services') return <ServicesPage />;
+  if (path === 'trade/spot') return <TradeLanding type="spot" />;
+  if (path === 'trade/leverage') return <TradeLanding type="leverage" />;
+  if (path === 'trade/bots') return <TradeLanding type="bots" />;
+  if (path === 'trade') return <Services />;
   if (path === 'blog' || path.startsWith('blog/')) return <EditorialPage />;
   if (path === 'analysis' || path.startsWith('analysis/')) return <EditorialPage mode="analysis" />;
   return null;
