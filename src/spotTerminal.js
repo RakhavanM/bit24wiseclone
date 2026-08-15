@@ -50,10 +50,10 @@ export function createRecentTrades(symbol, seed = 1) {
   }));
 }
 
-export function executeMarketOrder({ side, symbol, amount, account, feeRate = 0.001 }) {
+export function executeMarketOrder({ side, symbol, amount, account, feeRate = 0.001, executionPrice = symbol.price }) {
   const numericAmount = Number(amount);
   if (!Number.isFinite(numericAmount) || numericAmount <= 0) return { ok: false, error: 'مقدار سفارش باید بیشتر از صفر باشد.' };
-  const price = symbol.price;
+  const price = executionPrice;
   const gross = numericAmount * price;
   const fee = gross * feeRate;
   const quote = symbol.quote;
@@ -71,4 +71,36 @@ export function executeMarketOrder({ side, symbol, amount, account, feeRate = 0.
   const fill = { id: `fill-${Date.now()}`, symbol: symbol.code, side, type: 'market', price, amount: numericAmount, total: gross, fee, status: 'filled', time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }) };
   next.history = [fill, ...next.history].slice(0, 30);
   return { ok: true, account: next, fill };
+}
+
+export function placeLimitOrder({ side, symbol, price, amount, account, feeRate = 0.001 }) {
+  const numericPrice = Number(price);
+  const numericAmount = Number(amount);
+  if (!Number.isFinite(numericPrice) || numericPrice <= 0 || !Number.isFinite(numericAmount) || numericAmount <= 0) return { ok: false, error: 'قیمت و مقدار سفارش باید بیشتر از صفر باشند.' };
+  const next = structuredClone(account);
+  const quote = symbol.quote;
+  const base = symbol.base;
+  const reserve = numericPrice * numericAmount;
+  const fee = reserve * feeRate;
+  if (side === 'buy') {
+    if ((next.balances[quote] || 0) < reserve + fee) return { ok: false, error: `موجودی ${quote} برای این سفارش کافی نیست.` };
+    next.balances[quote] -= reserve + fee;
+  } else {
+    if ((next.balances[base] || 0) < numericAmount) return { ok: false, error: `موجودی ${base} برای این سفارش کافی نیست.` };
+    next.balances[base] -= numericAmount;
+  }
+  const order = { id: `open-${Date.now()}`, symbol: symbol.code, side, type: 'limit', price: numericPrice, amount: numericAmount, total: reserve, fee, status: 'open' };
+  next.openOrders = [order, ...next.openOrders];
+  return { ok: true, account: next, order };
+}
+
+export function cancelSimulatedOrder({ account, orderId }) {
+  const order = account.openOrders.find((item) => item.id === orderId);
+  if (!order) return { ok: false, error: 'سفارش پیدا نشد.' };
+  const next = structuredClone(account);
+  const [base, quote] = order.symbol.split('/');
+  if (order.side === 'buy') next.balances[quote] = (next.balances[quote] || 0) + order.total + order.fee;
+  else next.balances[base] = (next.balances[base] || 0) + order.amount;
+  next.openOrders = next.openOrders.filter((item) => item.id !== orderId);
+  return { ok: true, account: next, order };
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createOrderBook, createRecentTrades, defaultSpotAccount, executeMarketOrder, spotSymbols } from '../src/spotTerminal.js';
+import { cancelSimulatedOrder, createOrderBook, createRecentTrades, defaultSpotAccount, executeMarketOrder, placeLimitOrder, spotSymbols } from '../src/spotTerminal.js';
 
 describe('spot terminal simulation', () => {
   it('creates both sides of an order book around the selected price', () => {

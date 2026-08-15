@@ -39,7 +39,7 @@ test.describe('Bit24Wise spot terminal', () => {
     await page.getByRole('button', { name: 'ثبت سفارش خرید' }).click();
     await expect(page.getByText('سفارش در فهرست سفارش‌های باز قرار گرفت.')).toBeVisible();
     await page.reload();
-    await expect(page.locator('.spot-history-row')).toHaveCount(0);
     await expect(page.locator('.spot-bottom-tabs button').first()).toContainText('سفارش‌های باز (1)');
+    await expect(page.locator('.spot-bottom-tabs button').nth(1)).toContainText('تاریخچه معاملات (0)');
   });
 });
